@@ -1,0 +1,2 @@
+sudo cp buttonService /etc/init.d/buttonService
+sudo update-rc.d buttonService defaults

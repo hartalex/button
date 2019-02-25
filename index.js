@@ -2,7 +2,6 @@ var wpi = require('node-wiring-pi')
 var request = require('request')
 
 let pin = 10
-let count = 0
 let pinval = 1
 let lastpinval = 0
 
@@ -30,12 +29,28 @@ var sendSlack = (txt) => {
   )
 }
 
+var sendPress = () => {
+  request(
+    {
+      url: 'http://hub.hartcode.com/button',
+      method: 'POST'
+    },
+    function (error, response) {
+      if (!error && typeof response !== 'undefined' && response.statusCode && response.statusCode === 200) {
+        // Sending to Slack was successful
+        console.log('Press Success')
+      } else {
+        console.log(error)
+      }
+    }
+  )
+}
+
 setInterval(() => {
   wpi.pullUpDnControl(pin, wpi.PUD_UP)
   pinval = wpi.digitalRead(pin)
   if (pinval === 0 && lastpinval !== pinval) {
-    count++
-    sendSlack(`button is down:${count}`)
+    sendPress()
   }
   lastpinval = pinval
 }, 100)

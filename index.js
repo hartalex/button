@@ -32,7 +32,7 @@ var sendSlack = (txt) => {
 var sendPress = () => {
   request(
     {
-      url: 'http://hub.hartcode.com/button',
+      url: 'http://api.hub.hartcode.com/button',
       method: 'POST'
     },
     function (error, response) {
